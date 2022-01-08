@@ -165,7 +165,7 @@ export function useProxy () {
         const unUsedProxy = new Set(['DIRECT', 'REJECT', 'GLOBAL'])
         const proxies = global.all
             .filter(key => !unUsedProxy.has(key))
-            .map(key => ({ ...allProxies.data.proxies[key], name: key }))
+            .map(key => ({ ...allProxies.data.proxies[key], name: key, history: [] }))
         const [proxy, groups] = partition(proxies, proxy => !policyGroup.has(proxy.type))
         set({ proxies: proxy as API.Proxy[], groups: groups as API.Group[], global: global })
     })

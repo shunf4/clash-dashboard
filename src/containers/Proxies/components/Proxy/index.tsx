@@ -38,6 +38,13 @@ export function Proxy (props: ProxyProps) {
     }, [client])
 
     const speedTest = useCallback(async function () {
+        console.log('speedtest', config.name)
+        set(draft => {
+            const proxy = draft.proxies.find(p => p.name === config.name)
+            if (proxy != null) {
+                proxy.history.length = 0
+            }
+        })
         const result = await ResultAsync.fromPromise(getDelay(config.name), e => e as AxiosError)
 
         const validDelay = result.isErr() ? 0 : result.value
@@ -57,8 +64,15 @@ export function Proxy (props: ProxyProps) {
     useLayoutEffect(() => {
         const handler = () => { speedTest() }
         EE.subscribe(Action.SPEED_NOTIFY, handler)
-        return () => EE.unsubscribe(Action.SPEED_NOTIFY, handler)
-    }, [speedTest])
+        EE.subscribe(Action.SPEED_NOTIFY_SINGLE, (t) => {
+            if (t === config.name) {
+                speedTest()
+            }
+        })
+        return () => {
+            EE.unsubscribe(Action.SPEED_NOTIFY, handler)
+        }
+    }, [speedTest, config.name])
 
     const hasError = useMemo(() => delay === 0, [delay])
     const color = useMemo(

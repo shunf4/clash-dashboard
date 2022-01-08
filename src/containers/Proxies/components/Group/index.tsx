@@ -2,6 +2,7 @@ import { useAtom } from 'jotai'
 import { useMemo } from 'react'
 
 import { Tags, Tag } from '@components'
+import EE from '@lib/event'
 import { Group as IGroup } from '@lib/request'
 import { useProxy, useConfig, proxyMapping, useClient } from '@stores'
 
@@ -34,6 +35,10 @@ export function Group (props: GroupProps) {
         }
     }
 
+    async function handleSpeedTest (name: string) {
+        EE.notifySpeedTestForSingleProxy(name)
+    }
+
     const errSet = useMemo(() => {
         const set = new Set<string>()
         for (const proxy of config.all) {
@@ -57,11 +62,13 @@ export function Group (props: GroupProps) {
                 <Tags
                     className="ml-5 md:ml-8"
                     data={config.all}
+                    proxyMap={proxyMap}
                     onClick={handleChangeProxySelected}
                     errSet={errSet}
                     select={config.now}
                     canClick={canClick}
-                    rowHeight={30} />
+                    onSpeedTest={handleSpeedTest}
+                    rowHeight={50} />
             </div>
         </div>
     )
