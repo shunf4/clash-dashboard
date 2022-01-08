@@ -63,14 +63,16 @@ export function Proxy (props: ProxyProps) {
 
     useLayoutEffect(() => {
         const handler = () => { speedTest() }
-        EE.subscribe(Action.SPEED_NOTIFY, handler)
-        EE.subscribe(Action.SPEED_NOTIFY_SINGLE, (t) => {
+        const handlerForSingle = (t?: string) => {
             if (t === config.name) {
                 speedTest()
             }
-        })
+        }
+        EE.subscribe(Action.SPEED_NOTIFY, handler)
+        EE.subscribe(Action.SPEED_NOTIFY_SINGLE, handlerForSingle)
         return () => {
             EE.unsubscribe(Action.SPEED_NOTIFY, handler)
+            EE.unsubscribe(Action.SPEED_NOTIFY_SINGLE, handlerForSingle)
         }
     }, [speedTest, config.name])
 

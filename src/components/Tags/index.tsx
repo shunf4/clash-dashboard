@@ -62,7 +62,7 @@ export function Tags (props: TagsProps) {
     const ulRef = useRef<HTMLUListElement>(null)
     useLayoutEffect(() => {
         setShowExtend((ulRef?.current?.offsetHeight ?? 0) > 30)
-        document.addEventListener('mouseup', selectionCallback, true)
+        document.addEventListener('mouseup', selectionCallback)
 
         return () => {
             document.removeEventListener('mouseup', selectionCallback)
