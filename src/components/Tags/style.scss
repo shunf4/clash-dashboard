@@ -34,7 +34,12 @@
     li.tags-selected.error {
         background: linear-gradient(135deg, $color-primary-dark, $color-red);
         border: none;
-        padding: 0 7px;
+    }
+
+    li.tags-selected.has-speed-test-result {
+        color: #fff;
+        background: linear-gradient(135deg, $color-primary-dark, $color-purple);
+        border: none;
     }
 
     .tags-selected {
