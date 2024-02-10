@@ -44,13 +44,13 @@ defaults delete com.west2online.ClashX webviewUrl
 This command will start Clash Dashboard at `http://localhost:8080/`
 
 ```bash
-$ pnpm start
+$ npm start
 ```
 
 ### Build for production
 
 ```bash
-$ pnpm build
+$ npm build
 ```
 
 ## Contributors

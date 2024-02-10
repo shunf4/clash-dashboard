@@ -1,5 +1,4 @@
-import { useAtom } from 'jotai'
-import { useUpdateAtom } from 'jotai/utils'
+import { useAtom, useSetAtom } from 'jotai'
 import { useEffect } from 'react'
 
 import { Modal, Input, Alert } from '@components'
@@ -23,7 +22,7 @@ export default function ExternalController () {
         set({ hostname, port, secret })
     }, [hostname, port, secret, set])
 
-    const setter = useUpdateAtom(localStorageAtom)
+    const setter = useSetAtom(localStorageAtom)
 
     function handleOk () {
         const { hostname, port, secret } = value

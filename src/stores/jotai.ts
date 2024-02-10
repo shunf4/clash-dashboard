@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios'
 import produce from 'immer'
-import { atom, useAtom } from 'jotai'
-import { atomWithImmer } from 'jotai/immer'
-import { atomWithStorage, useUpdateAtom } from 'jotai/utils'
+import { atom, useAtom, useSetAtom } from 'jotai'
+import { atomWithImmer } from 'jotai-immer'
+import { atomWithStorage } from 'jotai/utils'
 import { get } from 'lodash-es'
 import { ResultAsync } from 'neverthrow'
 import { useCallback, useEffect, useMemo } from 'react'
@@ -50,7 +50,7 @@ export const version = atom({
 export function useVersion () {
     const [data, set] = useAtom(version)
     const client = useClient()
-    const setIdentity = useUpdateAtom(identityAtom)
+    const setIdentity = useSetAtom(identityAtom)
 
     useSWR([client], async function () {
         const result = await ResultAsync.fromPromise(client.getVersion(), e => e as AxiosError)

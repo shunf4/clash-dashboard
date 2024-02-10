@@ -1,5 +1,5 @@
 import classnames from 'classnames'
-import { useUpdateAtom } from 'jotai/utils'
+import { useSetAtom } from 'jotai'
 import { capitalize } from 'lodash-es'
 import { useEffect, useMemo } from 'react'
 
@@ -16,7 +16,7 @@ export default function Settings () {
     const { premium } = useVersion()
     const { data: clashXData, update: fetchClashXData } = useClashXData()
     const { general, update: fetchGeneral } = useGeneral()
-    const setIdentity = useUpdateAtom(identityAtom)
+    const setIdentity = useSetAtom(identityAtom)
     const apiInfo = useAPIInfo()
     const { translation, setLang, lang } = useI18n()
     const { t } = translation('Settings')
