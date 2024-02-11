@@ -85,7 +85,7 @@ export function useRuleProviders () {
 }
 
 export const configAtom = atomWithStorage('profile', {
-    breakConnections: false,
+    breakConnections: true,
 })
 
 export function useConfig () {

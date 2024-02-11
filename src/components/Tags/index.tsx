@@ -71,11 +71,16 @@ export function Tags (props: TagsProps) {
     }, [])
 
     const rowHeight = expand ? 'auto' : rawHeight
-    const handleClick = canClick ? onClick : noop
+    const handleClick = canClick ? (e: React.MouseEvent<HTMLLIElement, MouseEvent>, t: string) => {
+            if (!e.ctrlKey) {
+                onClick(t)
+            }
+        } : noop
 
-    function handleMiddleButtonDown (tag: string, e: React.MouseEvent<HTMLLIElement, MouseEvent>) {
-        if (e.button === 1) { // Middle button
+    function handleButtonDown (tag: string, e: React.MouseEvent<HTMLLIElement, MouseEvent>) {
+        if (e.button === 1 || e.ctrlKey) { // Middle button or Ctrl key pressed
             e.preventDefault()
+            e.stopPropagation()
             onSpeedTest(tag)
         }
     }
@@ -87,19 +92,20 @@ export function Tags (props: TagsProps) {
     const tags = data
         .map(t => {
             const history = proxyMap.get(t)?.history
-            const hasSpeedTestResult = history && history.length !== 0 && history.slice(-1)[0].delay > 0.001
-            const tagClass = classnames({ 'tags-selected': select === t, 'cursor-pointer': canClick, error: errSet?.has(t), 'has-speed-test-result': hasSpeedTestResult })
+            const hasSpeedTestResult = history && history.length !== 0 && (history.slice(-1)[0].delay ?? 0) > 0.001
+            const isDoingSpeedTest = history && history.length !== 0 && (history.slice(-1)[0].delay === null)
+            const tagClass = classnames({ 'tags-selected': select === t, 'cursor-pointer': canClick, error: errSet?.has(t), 'has-speed-test-result': hasSpeedTestResult, 'is-doing-speed-test': isDoingSpeedTest })
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const tagRef = useRef<HTMLLIElement>(null)
             tagRefs.push(tagRef)
 
             let delayDesc = ''
             if (hasSpeedTestResult) {
-                delayDesc = '<' + (Math.round((history.slice(-1)[0].delay + Number.EPSILON) * 100) / 100).toString() + 'ms>'
+                delayDesc = '<' + (Math.round((history.slice(-1)[0].delay!! + Number.EPSILON) * 100) / 100).toString() + 'ms>'
             }
 
             return (
-                <li className={tagClass} key={t} ref={tagRef} onClick={() => handleClick(t)} onMouseDown={(e) => handleMiddleButtonDown(t, e)}>
+                <li className={tagClass} key={t} ref={tagRef} onClick={(e) => handleClick(e, t)} onMouseDown={(e) => handleButtonDown(t, e)}>
                     { t }{ delayDesc === '' ? '' : <br /> }{ delayDesc }
                 </li>
             )

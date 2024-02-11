@@ -43,6 +43,7 @@ export function Proxy (props: ProxyProps) {
             const proxy = draft.proxies.find(p => p.name === config.name)
             if (proxy != null) {
                 proxy.history.length = 0
+                proxy.history.push({ time: Date.now().toString(), delay: null })
             }
         })
         const result = await ResultAsync.fromPromise(getDelay(config.name), e => e as AxiosError)
@@ -50,14 +51,14 @@ export function Proxy (props: ProxyProps) {
         const validDelay = result.isErr() ? 0 : result.value
         set(draft => {
             const proxy = draft.proxies.find(p => p.name === config.name)
-            if (proxy != null) {
-                proxy.history.push({ time: Date.now().toString(), delay: validDelay })
+            if (proxy != null && proxy.history.length > 0) {
+                proxy.history[proxy.history.length - 1] = { time: Date.now().toString(), delay: validDelay }
             }
         })
     }, [config.name, getDelay, set])
 
     const delay = useMemo(
-        () => config.history?.length ? config.history.slice(-1)[0].delay : 0,
+        () => config.history?.length ? (config.history.slice(-1)[0].delay ?? 0) : 0,
         [config],
     )
 

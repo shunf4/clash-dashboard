@@ -1,5 +1,5 @@
 import { atom, useAtom, useAtomValue } from 'jotai'
-import { atomWithStorage } from 'jotai/utils'
+import { atomWithStorage, createJSONStorage } from 'jotai/utils'
 import { useLocation } from 'react-use'
 
 import { isClashX, jsBridge } from '@lib/jsBridge'
@@ -23,7 +23,7 @@ export const localStorageAtom = atomWithStorage<Array<{
     hostname: string
     port: string
     secret: string
-}>>('externalControllers', [])
+}>>('externalControllers', [], createJSONStorage(() => localStorage), { getOnInit: true })
 
 export function useAPIInfo () {
     const clashx = useAtomValue(clashxConfigAtom)

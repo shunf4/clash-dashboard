@@ -31,6 +31,12 @@
         border-color: $color-purple;
     }
 
+    li.is-doing-speed-test {
+        color: #fff;
+        background-color: $color-purple-300;
+        border-color: $color-purple-400;
+    }
+
     li.tags-selected.error {
         background: linear-gradient(135deg, $color-primary-dark, $color-red);
         border: none;
@@ -39,6 +45,12 @@
     li.tags-selected.has-speed-test-result {
         color: #fff;
         background: linear-gradient(135deg, $color-primary-dark, $color-purple);
+        border: none;
+    }
+
+    li.tags-selected.is-doing-speed-test {
+        color: #fff;
+        background: linear-gradient(135deg, $color-primary-dark, $color-purple-300);
         border: none;
     }
 
