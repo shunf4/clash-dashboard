@@ -261,14 +261,14 @@ export function useLogsStreamReader () {
 
     const useWebsocket = !!version.version || true
     const key = `${apiInfo.protocol}//${apiInfo.hostname}:${apiInfo.port}/logs?level=${general.logLevel ?? ''}&useWebsocket=${useWebsocket}&secret=${apiInfo.secret}`
-    if (item.key === key) {
+            if (item.key === key) {
         return item.instance!
     }
 
     const oldInstance = item.instance
 
     const logUrl = `${apiInfo.protocol}//${apiInfo.hostname}:${apiInfo.port}/logs?level=${general.logLevel ?? ''}`
-    const instance = new StreamReader<Log>({ url: logUrl, bufferLength: 200, token: apiInfo.secret, useWebsocket })
+            const instance = new StreamReader<Log>({ url: logUrl, bufferLength: 200, token: apiInfo.secret, useWebsocket })
     setItem({ key, instance })
 
     if (oldInstance != null) {
@@ -285,7 +285,7 @@ export function useConnectionStreamReader () {
     const useWebsocket = !!version.version || true
 
     const url = `${apiInfo.protocol}//${apiInfo.hostname}:${apiInfo.port}/connections`
-    return useMemo(
+            return useMemo(
         () => version.version ? new StreamReader<Snapshot>({ url, bufferLength: 200, token: apiInfo.secret, useWebsocket }) : null,
         [apiInfo.secret, url, useWebsocket, version.version],
     )

@@ -45,8 +45,8 @@ export function useAPIInfo () {
 
     const qs = new URLSearchParams(location.search)
 
-    const hostname = qs.get('host') ?? localStorage?.[0]?.hostname ?? url?.hostname ?? '127.0.0.1'
-    const port = qs.get('port') ?? localStorage?.[0]?.port ?? url?.port ?? '9090'
+    const hostname = qs.get('host') ?? localStorage?.[0]?.hostname ?? url?.hostname ?? window.location.hostname
+    const port = qs.get('port') ?? localStorage?.[0]?.port ?? url?.port ?? window.location.port
     const secret = qs.get('secret') ?? localStorage?.[0]?.secret ?? url?.username ?? ''
     const protocol = qs.get('protocol') ?? hostname === '127.0.0.1' ? 'http:' : (url?.protocol ?? window.location.protocol)
 
@@ -68,7 +68,7 @@ export function useClient () {
 
     const [item, setItem] = useAtom(clientAtom)
     const key = `${protocol}//${hostname}:${port}?secret=${secret}`
-    if (item.key === key) {
+            if (item.key === key) {
         return item.instance!
     }
 
