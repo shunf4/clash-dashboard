@@ -15,13 +15,16 @@ export default defineConfig(
                 injectRegister: 'inline',
                 manifest: {
                     icons: [{
-                        src: '//cdn.jsdelivr.net/gh/Dreamacro/clash-dashboard/src/assets/Icon.png',
+                        src: 'https://github.com/MetaCubeX.png?size=512',
                         sizes: '512x512',
                         type: 'image/png',
                     }],
                     start_url: '/',
-                    short_name: 'Clash Dashboard',
-                    name: 'Clash Dashboard',
+                    short_name: 'MetacubeX Dashboard',
+                    name: 'MetacubeX Dashboard',
+                },
+                workbox: {
+                    inlineWorkboxRuntime: true,
                 },
             }),
         ],
@@ -33,7 +36,18 @@ export default defineConfig(
                 },
             },
         },
-        build: { reportCompressedSize: false },
+        build: {
+            reportCompressedSize: false,
+            cssCodeSplit: false,
+            rollupOptions: {
+                output: {
+                    inlineDynamicImports: true,
+                    entryFileNames: '[name].js',
+                    assetFileNames: '[name].[ext]',
+                    manualChunks: undefined,
+                }
+            }
+        },
         esbuild: {
             jsxInject: "import React from 'react'",
         },

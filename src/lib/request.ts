@@ -160,7 +160,8 @@ export class Client {
         return await this.axiosClient.get<{ delay: number }>(`proxies/${encodeURIComponent(name)}/delay`, {
             params: {
                 timeout: 5000,
-                url: 'https://www.googleapis.com/auth/documents',
+                // url: 'https://www.googleapis.com/auth/documents',
+                url: '',
             },
         })
     }

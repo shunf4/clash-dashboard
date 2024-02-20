@@ -1,7 +1,7 @@
 import classnames from 'classnames'
 import { NavLink } from 'react-router-dom'
 
-import logo from '@assets/logo.png'
+import logo from '@assets/logo.jpg'
 import { Lang, Language } from '@i18n'
 import { useI18n, useVersion, useClashXData } from '@stores'
 import './style.scss'
@@ -38,7 +38,7 @@ export default function Sidebar (props: SidebarProps) {
                 { navlinks }
             </ul>
             <div className="sidebar-version">
-                <span className="sidebar-version-label">Clash{ data?.isClashX && 'X' } { t('Version') }</span>
+                <span className="sidebar-version-label">MetaCubeX { t('Version') }</span>
                 <span className="sidebar-version-text">{ version }</span>
                 { premium && <span className="sidebar-version-label">Premium</span> }
             </div>
